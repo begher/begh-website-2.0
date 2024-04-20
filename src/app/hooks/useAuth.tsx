@@ -2,6 +2,7 @@ import { useState, useEffect, useContext, createContext, ReactElement } from 're
 import { auth } from '../firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import Loading from '../loading';
+import { useRouter, usePathname } from 'next/navigation';
 
 interface AuthContextType {
   currentUser: User | null;
@@ -34,6 +35,8 @@ const AuthContext = createContext<AuthContextType>({
 export const AuthProvider = ({ children }: { children: ReactElement | ReactElement[] }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -54,6 +57,9 @@ export const AuthProvider = ({ children }: { children: ReactElement | ReactEleme
               setLoading(false);
             });
         });
+      } else if (!user && pathname !== '/access-denied' && pathname !== '/') {
+        router.push('/access-denied');
+        setLoading(false);
       } else {
         setLoading(false);
       }
@@ -66,9 +72,13 @@ export const AuthProvider = ({ children }: { children: ReactElement | ReactEleme
 
   return (
     <html lang='en'>
-      <AuthContext.Provider value={{ currentUser, loading, setLoading }}>
-        <body>{loading ? <Loading /> : children}</body>
-      </AuthContext.Provider>
+      <body className='bg-begh-background p-6 h-screen '>
+        <AuthContext.Provider value={{ currentUser, loading, setLoading }}>
+          <div className=' bg-begh-white h-full shadow-begh-body mx-auto rounded-2xl overflow-hidden '>
+            {loading ? <Loading /> : children}
+          </div>
+        </AuthContext.Provider>
+      </body>
     </html>
   );
 };

@@ -3,11 +3,12 @@
 import { useState, useEffect } from 'react';
 import RegisterForm from './RegisterForm';
 import LoginForm from './LoginForm';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 export default function Home() {
   const [errorMessage, setErrorMessage] = useState('');
   const [formState, setFormState] = useState(2);
+  const router = useRouter();
 
   const searchParams = useSearchParams();
 
@@ -34,7 +35,10 @@ export default function Home() {
         )}
         <div className='sm:max-w-md mx-auto mt-10   flex w-full rounded-t-2xl overflow-hidden'>
           <button
-            onClick={() => setFormState(1)}
+            onClick={() => {
+              setFormState(1);
+              router.replace('/?form=login');
+            }}
             className={`w-1/2 text-center tracking-wider py-2.5 bg-gray-700 ${
               formState === 1 ? 'bg-gray-800' : 'bg-gray-700 hover:bg-gray-600'
             }`}
@@ -42,7 +46,10 @@ export default function Home() {
             Login
           </button>
           <button
-            onClick={() => setFormState(2)}
+            onClick={() => {
+              setFormState(2);
+              router.replace('/?form=register');
+            }}
             className={`w-1/2 text-center tracking-wider  h-full py-2.5 ${
               formState === 2 ? 'bg-gray-800' : 'bg-gray-700 hover:bg-gray-600'
             }`}
