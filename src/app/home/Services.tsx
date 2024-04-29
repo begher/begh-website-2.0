@@ -4,6 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useEffect } from 'react';
 import { Service } from '../types/serviceStatus';
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function Services() {
   const { services } = useAuth();
@@ -34,14 +35,17 @@ export default function Services() {
             <div className='flex flex-col gap-4'>
               {onlineServices &&
                 onlineServices.map((data: Service, index: number) => {
+                  const serviceName = data.name.replace(/\s+/g, '-').toLowerCase();
+                  console.log('serviceName', serviceName);
+
                   return (
-                    <div key={index}>
+                    <Link href={`/service/${serviceName}`} key={index}>
                       <button className='w-full relative h-[74px] py-6 px-4 group transition border duration-200 bg-white border-begh-gray  rounded-lg hover:shadow-begh-success-hover shadow-begh-success'>
                         <p className='absolute transition duration-200 top-1/2 -translate-y-1/2 translate-x-[0%] '>
                           {data.name}
                         </p>
                       </button>
-                    </div>
+                    </Link>
                   );
                 })}
             </div>

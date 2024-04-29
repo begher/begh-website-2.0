@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }: { children: ReactElement | ReactEleme
   const pathname = usePathname();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user: User) => {
+    const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
       setCurrentUser(user);
       console.log('user', user);
 
