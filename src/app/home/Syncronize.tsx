@@ -1,7 +1,48 @@
+'use client';
+
 import { FaCheckCircle } from 'react-icons/fa';
 import { FaCircleXmark } from 'react-icons/fa6';
+import { useEffect, useState } from 'react';
+import syncCheck from '../api/syncCheck';
+import { VISMA_SYNC_API } from '../api/settings';
+
+type SyncResults = {
+  [key: string]: {
+    name?: string;
+    data?: any;
+    error?: string;
+    synced: boolean;
+  };
+};
 
 const Syncronize = () => {
+  const [syncStatus, setSyncStatus] = useState<SyncResults>({});
+
+  useEffect(() => {
+    const syncAllEndpoints = async () => {
+      const results: SyncResults = {};
+
+      for (const key in VISMA_SYNC_API) {
+        try {
+          const response = await syncCheck(key);
+          results[key] = { ...response, synced: true };
+        } catch (error) {
+          if (error instanceof Error) {
+            results[key] = { error: error.message, synced: false };
+          } else {
+            results[key] = { error: 'An error occurred', synced: false };
+          }
+        }
+      }
+
+      console.log('results', results);
+
+      setSyncStatus(results);
+    };
+
+    syncAllEndpoints();
+  }, []);
+
   return (
     <section className='w-full sm:bg-slate-100 p-0 sm:p-8 sm:rounded-[32px] sm:border border-gray-400 sm:shadow-md'>
       <h1 className='mb-4 text-2xl font-medium'>Synscronize</h1>
