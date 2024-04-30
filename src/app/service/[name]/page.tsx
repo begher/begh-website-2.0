@@ -2,7 +2,6 @@
 
 import { useParams } from 'next/navigation';
 import { useEffect } from 'react';
-import Service from './api/route';
 
 const ServicePage = () => {
   const { name } = useParams();

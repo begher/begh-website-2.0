@@ -13,7 +13,7 @@ const Navigation = () => {
   const router = useRouter();
 
   return (
-    <nav className='h-20 flex items-center justify-between px-12 text-gray-800 mx-auto border-b border-begh-gray'>
+    <nav className='h-20 flex items-center justify-between px-4 sm:px-12 text-gray-800 mx-auto border-b border-begh-gray'>
       <div className='flex items-end gap-4'>
         <Link href='/home' className='font-bungee text-2xl'>
           BEGH

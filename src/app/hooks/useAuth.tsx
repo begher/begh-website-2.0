@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }: { children: ReactElement | ReactEleme
 
   return (
     <html lang='en'>
-      <body className='bg-begh-background p-6 h-screen '>
+      <body className='bg-begh-background p-4 sm:p-6 h-screen '>
         <AuthContext.Provider value={{ currentUser, loading, setLoading, services }}>
           <div className=' bg-begh-white h-full shadow-begh-body mx-auto rounded-2xl overflow-hidden '>
             {loading ? <Loading /> : children}

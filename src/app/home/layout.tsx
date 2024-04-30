@@ -14,7 +14,7 @@ export default function RootLayout({
   return (
     <div className='text-begh-gray'>
       <Container>
-        <div className='max-w-[1392px] mx-auto pt-8'>{children}</div>
+        <div className='max-w-[1392px] mx-auto pt-4 sm:pt-8'>{children}</div>
       </Container>
     </div>
   );

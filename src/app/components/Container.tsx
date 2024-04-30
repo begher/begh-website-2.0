@@ -11,7 +11,7 @@ const Container = ({ children }: ContainerProps) => {
   return (
     <>
       <Navigation />
-      <div className='px-12'>{children}</div>
+      <div className='px-4 sm:px-12'>{children}</div>
     </>
   );
 };
