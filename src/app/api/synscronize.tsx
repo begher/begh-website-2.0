@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { VISMA_SYNC_API, VISMA_SYNC_SERVICE_OPTIONS } from './settings';
 
-const syncCheck = (type: string) => {
-  const config = VISMA_SYNC_API[type];
+const synscronize = (endpoint: string, syncType: string) => {
+  const config = VISMA_SYNC_API[endpoint];
   if (!config) {
-    return Promise.reject(new Error('Invalid type specified'));
+    return Promise.reject(new Error('Invalid endpoint specified'));
   }
 
-  const url = `${config.api}${VISMA_SYNC_SERVICE_OPTIONS.syncCheck}`;
+  const url = `${config.api}${VISMA_SYNC_SERVICE_OPTIONS[syncType]}`;
 
   return axios
     .get(url)
@@ -20,4 +20,4 @@ const syncCheck = (type: string) => {
     }));
 };
 
-export default syncCheck;
+export default synscronize;
