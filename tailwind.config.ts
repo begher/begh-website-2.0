@@ -31,6 +31,9 @@ const config: Config = {
         bungee: ['var(--font-bungee)', 'sans-serif'],
         poppins: ['var(--font-poppins)', 'sans-serif'],
       },
+      screens: {
+        xs: '460px',
+      },
     },
   },
   plugins: [],

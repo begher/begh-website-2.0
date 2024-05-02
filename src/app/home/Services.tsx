@@ -25,7 +25,7 @@ export default function Services() {
   }, [services]);
 
   return (
-    <section className='w-full col-span-2'>
+    <section className='w-full lg:col-span-4 col-span-2'>
       <div className='max-w-[900px] sm:bg-slate-100 p-0 sm:p-8 sm:rounded-[32px] sm:border border-gray-400 sm:shadow-md'>
         <h1 className='mb-4 text-2xl font-medium'>Services</h1>
         <div className='h-1 rounded sm:rounded-none sm:h-px bg-emerald-400 sm:bg-gray-400 w-full'></div>

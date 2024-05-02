@@ -1,6 +1,6 @@
 const BASE_URL = 'https://api.imats.se/';
 
-const VISMA_SYNC_SERVICE = `${BASE_URL}visma-sync-service/`;
+const VISMA_SYNC_SERVICE = `${BASE_URL}sync-service/`;
 
 const VISMA_SYNC_SERVICE_OPTIONS = {
   info: '/info',

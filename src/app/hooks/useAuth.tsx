@@ -29,7 +29,7 @@ interface AuthContextType {
 // }
 
 async function getServices() {
-  const response = await fetch('https://api.imats.se/control-panel-service/servicestatus', {
+  const response = await fetch('https://api.imats.se/control-service/servicestatus', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ export const AuthProvider = ({ children }: { children: ReactElement | ReactEleme
     <html lang='en'>
       <body className='bg-begh-background p-4 sm:p-6 h-screen '>
         <AuthContext.Provider value={{ currentUser, loading, setLoading, services }}>
-          <div className=' bg-begh-white h-full shadow-begh-body mx-auto rounded-2xl overflow-hidden '>
+          <div className=' bg-begh-white h-full shadow-begh-body mx-auto rounded-2xl overflow-x-hidden overflow-y-auto'>
             {loading ? <Loading /> : children}
           </div>
         </AuthContext.Provider>
