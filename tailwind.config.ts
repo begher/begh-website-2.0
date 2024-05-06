@@ -25,6 +25,7 @@ const config: Config = {
         'begh-success-hover': '0 0 10px 4px rgba(32, 232, 0, 0.25)',
         'begh-error': '0 0 10px rgba(232, 0, 0, 0.5)',
         'begh-error-hover': '0 0 10px 4px rgba(232, 0, 0, 0.5)',
+        'begh-notification': '0 0 10px 4px rgba(121, 151, 228, 0.3)',
       },
       fontFamily: {
         benee: ['var(--font-benne)', 'sans-serif'],

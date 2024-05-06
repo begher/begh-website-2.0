@@ -12,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className='text-begh-gray'>
+    <div className='text-begh-gray font-poppins'>
       <Container>
         <div className='max-w-[1392px] mx-auto pt-4 sm:pt-8'>{children}</div>
       </Container>
