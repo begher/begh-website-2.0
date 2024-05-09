@@ -80,6 +80,7 @@ const Syncronize = () => {
   const getSyncInfo = async (endpoint: string) => {
     setSyncInfoEndpoint(endpoint);
     setSyncInfoModal(true);
+    setOpenNotification(false);
     try {
       const response = await synscronize(endpoint, 'info');
       setSyncInfo(response);
@@ -172,7 +173,7 @@ const Syncronize = () => {
                             ) : (
                               <>
                                 <span className='text-gray-500 font-normal '>Error</span>
-                                <MdError className='text-yellow-400 inline-block ml-2' />
+                                <MdError className='text-red-400 inline-block ml-2' />
                               </>
                             )}
                           </dd>
@@ -190,7 +191,7 @@ const Syncronize = () => {
                           </>
                         ) : (
                           <>
-                            <span className='text-gray-500 font-normal '>Error</span>
+                            <span>Error</span>
                             <MdError className='text-red-400 inline-block ml-2' />
                           </>
                         )}

@@ -1,10 +1,11 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
+import { SyncInfoProps } from '../types/syncInfoProps';
 
 interface SyncInfoModalProps {
   syncInfoModal: boolean;
   setSyncInfoModal: (open: boolean) => void;
-  syncInfo: string | null;
+  syncInfo: SyncInfoProps | null;
 }
 
 export default function SyncInfoModal({
@@ -12,7 +13,24 @@ export default function SyncInfoModal({
   setSyncInfoModal,
   syncInfo,
 }: SyncInfoModalProps) {
-  console.log('syncInfo', syncInfo);
+  const calculateDuration = () => {
+    if (syncInfo?.data?.start?.createdAt && syncInfo?.data?.completed?.createdAt) {
+      const start = new Date(syncInfo.data.start.createdAt);
+      const end = new Date(syncInfo.data.completed.createdAt);
+      return ((end.getTime() - start.getTime()) / 1000).toFixed(2);
+    }
+    return null;
+  };
+
+  const duration = calculateDuration();
+  const errorMessage = syncInfo?.data?.error?.message;
+  const syncStarted = syncInfo?.data?.start?.createdAt
+    ? new Date(syncInfo.data.start.createdAt)
+    : null;
+
+  const syncEnded = syncInfo?.data?.completed?.createdAt
+    ? new Date(syncInfo.data.completed.createdAt)
+    : null;
 
   return (
     <Transition.Root show={syncInfoModal} as={Fragment}>
@@ -40,30 +58,58 @@ export default function SyncInfoModal({
               leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
             >
               <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6'>
-                <div>
-                  <div className='mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100'></div>
-                  <div className='mt-3 text-center sm:mt-5'>
-                    <Dialog.Title
-                      as='h3'
-                      className='text-base font-semibold leading-6 text-gray-900'
-                    >
-                      {/* {syncInfo.name ? syncInfo.name : 'Sync Info'} */}
-                    </Dialog.Title>
-                    <div className='mt-2'>
-                      <p className='text-sm text-gray-500'>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur amet
-                        labore.
-                      </p>
+                {syncInfo && (
+                  <div>
+                    <div>
+                      <Dialog.Title
+                        as='h3'
+                        className='text-base sm:text-lg leading-6 text-begh-gray'
+                      >
+                        Latest sync details for{' '}
+                        <span className='font-semibold'>{syncInfo.name}</span>
+                      </Dialog.Title>
+                      <div className='mt-4'>
+                        <ul className='text-gray-500 text-sm'>
+                          <li>
+                            Sync started:{' '}
+                            <span className='text-begh-gray font-semibold block'>
+                              {syncStarted ? syncStarted.toLocaleString() : 'Not started'}
+                            </span>
+                          </li>
+                          <li className='mb-4'>
+                            Sync ended:{' '}
+                            <span className='text-begh-gray font-semibold block'>
+                              {syncEnded ? syncEnded.toLocaleString() : 'Not ended'}
+                            </span>
+                          </li>
+                          <li className='mb-4'>
+                            Time to sync endpoint:{' '}
+                            <span className='text-begh-gray font-semibold block'>
+                              {duration ? `${duration} sec` : '--'}
+                            </span>
+                          </li>
+                          <li>
+                            Error message:{' '}
+                            <span className='text-begh-gray font-semibold block'>
+                              {errorMessage && syncEnded
+                                ? errorMessage
+                                : !errorMessage && !syncEnded
+                                ? 'No error reported yet'
+                                : 'No error reported'}
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
                 <div className='mt-5 sm:mt-6'>
                   <button
                     type='button'
                     className='inline-flex w-full justify-center rounded font-poppins tracking-wider bg-gray-700 px-2 py-2 text-sm text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500'
                     onClick={() => setSyncInfoModal(false)}
                   >
-                    Close window
+                    Close
                   </button>
                 </div>
               </Dialog.Panel>
