@@ -2,12 +2,13 @@
 
 import { FaCheckCircle } from 'react-icons/fa';
 import { FaCircleXmark } from 'react-icons/fa6';
-import { useEffect, useState } from 'react';
+import { MdError } from 'react-icons/md';
+import { useEffect, useState, Fragment } from 'react';
 import synscronize from '../api/synscronize';
 import { VISMA_SYNC_API } from '../api/settings';
 import { FidgetSpinner } from 'react-loader-spinner';
-import Notification from '../components/Notification';
-import SyncInfoModal from '../components/SyncInfoModal';
+import Notification from '../../components/Notification';
+import SyncInfoModal from '../../components/SyncInfoModal';
 
 type SyncResults = {
   [key: string]: {
@@ -60,7 +61,7 @@ const Syncronize = () => {
     setOpenNotification(true);
     try {
       const response = await synscronize(endpoint, 'sync');
-      setNotificationMessage('To know if the sync is completed or not, click on more info.');
+      setNotificationMessage('To see the sync process, click on more info.');
       setSyncError(false);
 
       if ('error' in response) {
@@ -150,8 +151,8 @@ const Syncronize = () => {
               {sortedSyncStatus.map(([key, { name, data, error }]) => {
                 const syncNeeded = data?.syncNeeded;
                 return (
-                  <>
-                    <tr key={key}>
+                  <Fragment key={key}>
+                    <tr>
                       <td className='w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-0 truncate min-w-0'>
                         {name || key}
                         <dl className='block xs:hidden lg:block xl:hidden'>
@@ -169,7 +170,10 @@ const Syncronize = () => {
                                 )}
                               </>
                             ) : (
-                              <span className='text-gray-500 font-normal '>Error</span>
+                              <>
+                                <span className='text-gray-500 font-normal '>Error</span>
+                                <MdError className='text-yellow-400 inline-block ml-2' />
+                              </>
                             )}
                           </dd>
                         </dl>
@@ -185,7 +189,10 @@ const Syncronize = () => {
                             )}
                           </>
                         ) : (
-                          <span>Error</span>
+                          <>
+                            <span className='text-gray-500 font-normal '>Error</span>
+                            <MdError className='text-red-400 inline-block ml-2' />
+                          </>
                         )}
                       </td>
                       <td className='px-3 py-4 min-w-0'>
@@ -231,7 +238,7 @@ const Syncronize = () => {
                         </button>
                       </td>
                     </tr>
-                  </>
+                  </Fragment>
                 );
               })}
             </tbody>

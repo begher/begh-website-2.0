@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import './globals.css';
-import Providers from './components/Provider';
+import '../styles/globals.css';
+import Providers from '../components/Provider';
 import { Benne, Bungee, Poppins } from 'next/font/google';
 
 const benne = Benne({

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Container from '@/app/components/Container';
+import Container from '../../components/Container';
 
 export const metadata: Metadata = {
   title: 'Home',

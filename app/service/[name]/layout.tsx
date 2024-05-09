@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Container from '../components/Container';
+import Container from '../../../../components/Container';
 
 export const metadata: Metadata = {
   title: 'Home',
@@ -12,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className='text-begh-gray font-poppins'>
+    <div className='text-begh-gray'>
       <Container>
         <div className='max-w-[1392px] mx-auto pt-4 sm:pt-8'>{children}</div>
       </Container>

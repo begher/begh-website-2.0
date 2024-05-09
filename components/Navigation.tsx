@@ -1,4 +1,4 @@
-import { auth } from '../firebase';
+import { auth } from '../app/firebase';
 import { signOut } from 'firebase/auth';
 import { useAuth } from '../hooks/useAuth';
 import { useRouter } from 'next/navigation';

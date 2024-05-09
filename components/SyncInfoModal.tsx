@@ -16,7 +16,7 @@ export default function SyncInfoModal({
 
   return (
     <Transition.Root show={syncInfoModal} as={Fragment}>
-      <Dialog className='relative z-10' onClose={setSyncInfoModal}>
+      <Dialog className='relative z-10 ' onClose={setSyncInfoModal}>
         <Transition.Child
           as={Fragment}
           enter='ease-out duration-300'
@@ -28,7 +28,7 @@ export default function SyncInfoModal({
         >
           <div className='fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity' />
         </Transition.Child>
-        <div className='fixed font-poppins inset-0 z-10 w-screen overflow-y-auto'>
+        <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
           <div className='flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0'>
             <Transition.Child
               as={Fragment}
@@ -47,7 +47,7 @@ export default function SyncInfoModal({
                       as='h3'
                       className='text-base font-semibold leading-6 text-gray-900'
                     >
-                      {syncInfo.name}
+                      {/* {syncInfo.name ? syncInfo.name : 'Sync Info'} */}
                     </Dialog.Title>
                     <div className='mt-2'>
                       <p className='text-sm text-gray-500'>
@@ -60,7 +60,7 @@ export default function SyncInfoModal({
                 <div className='mt-5 sm:mt-6'>
                   <button
                     type='button'
-                    className='inline-flex w-full justify-center rounded bg-gray-700 px-2 py-1 text-sm text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500'
+                    className='inline-flex w-full justify-center rounded font-poppins tracking-wider bg-gray-700 px-2 py-2 text-sm text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500'
                     onClick={() => setSyncInfoModal(false)}
                   >
                     Close window

@@ -1,8 +1,8 @@
 'use client';
 
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 import { useEffect } from 'react';
-import { Service } from '../types/serviceStatus';
+import { Service } from '../../types/serviceStatus';
 import { useState } from 'react';
 import Link from 'next/link';
 

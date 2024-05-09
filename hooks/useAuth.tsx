@@ -1,9 +1,18 @@
 import { useState, useEffect, useContext, createContext, ReactElement } from 'react';
-import { auth } from '../firebase';
+import { auth } from '../app/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
-import Loading from '../loading';
+import Loading from '../app/loading';
 import { useRouter, usePathname } from 'next/navigation';
 import { Service } from '../types/serviceStatus';
+import { Poppins } from 'next/font/google';
+
+const poppins = Poppins({
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-poppins',
+});
 
 interface AuthContextType {
   currentUser: User | null;
@@ -94,7 +103,7 @@ export const AuthProvider = ({ children }: { children: ReactElement | ReactEleme
   }, []);
 
   return (
-    <html lang='en'>
+    <html lang='en' className={poppins.className}>
       <body className='bg-begh-background p-4 sm:p-6 h-screen '>
         <AuthContext.Provider value={{ currentUser, loading, setLoading, services }}>
           <div className=' bg-begh-white h-full shadow-begh-body mx-auto rounded-2xl overflow-x-hidden overflow-y-auto'>
