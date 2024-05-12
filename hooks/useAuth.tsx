@@ -100,6 +100,7 @@ export const AuthProvider = ({ children }: { children: ReactElement | ReactEleme
     return () => {
       unsubscribe();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

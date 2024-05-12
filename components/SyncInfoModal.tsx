@@ -1,6 +1,7 @@
-import { Fragment, useEffect, useRef } from 'react';
+import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { SyncInfoProps } from '../types/syncInfoProps';
+import { FidgetSpinner } from 'react-loader-spinner';
 
 interface SyncInfoModalProps {
   syncInfoModal: boolean;
@@ -58,7 +59,7 @@ export default function SyncInfoModal({
               leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
             >
               <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6'>
-                {syncInfo && (
+                {syncInfo ? (
                   <div>
                     <div>
                       <Dialog.Title
@@ -102,8 +103,20 @@ export default function SyncInfoModal({
                       </div>
                     </div>
                   </div>
+                ) : (
+                  <div className='flex justify-center py-6'>
+                    <div className='flex flex-col items-center gap-2'>
+                      <FidgetSpinner
+                        height={32}
+                        width={32}
+                        backgroundColor='#EB737A'
+                        ballColors={['#909090', '#4078C0', '#C0A440']}
+                      />
+                      <p>Loading ...</p>
+                    </div>
+                  </div>
                 )}
-                <div className='mt-5 sm:mt-6'>
+                <div className='mt-5 sm:mt-6 flex gap-4'>
                   <button
                     type='button'
                     className='inline-flex w-full justify-center rounded font-poppins tracking-wider bg-gray-700 px-2 py-2 text-sm text-white shadow-sm hover:bg-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500'
