@@ -21,22 +21,6 @@ interface AuthContextType {
   services: Service[] | null;
 }
 
-// async function postUser(accessToken: string) {
-//   const response = await fetch('https://api.imats.se/customer-service', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({ accessToken }),
-//   });
-
-//   if (!response.ok) {
-//     throw new Error('Network response was not ok');
-//   }
-
-//   return response.json();
-// }
-
 async function getServices() {
   const response = await fetch('https://api.imats.se/control-service/servicestatus', {
     method: 'GET',
@@ -69,13 +53,8 @@ export const AuthProvider = ({ children }: { children: ReactElement | ReactEleme
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
       setCurrentUser(user);
-      console.log('user', user);
-
       if (user) {
-        console.log('user.getIdToken()', user.getIdToken());
-
         user.getIdToken().then(() => {
-          // postUser(accessToken)
           getServices()
             .then((data) => {
               console.log('data', data);

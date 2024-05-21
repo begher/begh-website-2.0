@@ -5,9 +5,11 @@ import { useEffect } from 'react';
 import { Service } from '../../types/serviceStatus';
 import { useState } from 'react';
 import Link from 'next/link';
+import { useServiceContext } from '../../context/serviceContext';
 
 export default function Services() {
   const { services } = useAuth();
+  const { setHealthServiceEndpoint, setUptimeServiceEndpoint } = useServiceContext();
   const [onlineServices, setOnlineServices] = useState<Service[]>([]);
   const [offlineServices, setOfflineServices] = useState<Service[]>([]);
 
@@ -24,6 +26,11 @@ export default function Services() {
     console.log('services', services);
   }, [services]);
 
+  const handleClick = (data: Service) => {
+    setHealthServiceEndpoint(`${data.url}${data.health}`);
+    setUptimeServiceEndpoint(`${data.url}${data.uptime}`);
+  };
+
   return (
     <section className='w-full lg:col-span-4 col-span-2'>
       <div className='max-w-[900px] sm:bg-slate-100 p-0 sm:p-8 sm:rounded-[32px] sm:border border-gray-400 sm:shadow-md'>
@@ -36,10 +43,13 @@ export default function Services() {
               {onlineServices &&
                 onlineServices.map((data: Service, index: number) => {
                   const serviceName = data.name.replace(/\s+/g, '-').toLowerCase();
-                  console.log('serviceName', serviceName);
 
                   return (
-                    <Link href={`/service/${serviceName}`} key={index}>
+                    <Link
+                      onClick={() => handleClick(data)}
+                      href={`/service/${serviceName}`}
+                      key={index}
+                    >
                       <button className='w-full relative h-14 sm:h-[74px] py-6 px-4 group transition border duration-200 bg-white border-begh-gray  rounded-lg hover:shadow-begh-success-hover shadow-begh-success'>
                         <p className='absolute transition duration-200 top-1/2 -translate-y-1/2 translate-x-[0%] sm:text-base text-sm'>
                           {data.name}
