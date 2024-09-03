@@ -9,6 +9,7 @@ import { VISMA_SYNC_API } from '../api/settings';
 import { FidgetSpinner } from 'react-loader-spinner';
 import Notification from '../../components/Notification';
 import SyncInfoModal from '../../components/SyncInfoModal';
+import { useAuth } from '../../hooks/useAuth';
 
 type SyncResults = {
   [key: string]: {
@@ -29,15 +30,20 @@ const Syncronize = () => {
   const [notificationMessage, setNotificationMessage] = useState<string | null>(null);
   const [syncError, setSyncError] = useState<boolean>(false);
   const [syncInfoModal, setSyncInfoModal] = useState<boolean>(false);
+  const { token } = useAuth();
 
   useEffect(() => {
     setLoading(true);
     const getSyncStatus = async () => {
       const results: SyncResults = {};
 
+      if (!token) {
+        setLoading(false);
+        return;
+      }
       for (const key in VISMA_SYNC_API) {
         try {
-          const response = await synscronize(key, 'syncCheck');
+          const response = await synscronize(key, 'syncCheck', token);
           results[key] = { ...response };
         } catch (error) {
           if (error instanceof Error) {
@@ -53,14 +59,21 @@ const Syncronize = () => {
     };
 
     getSyncStatus();
-  }, []);
+  }, [token]);
 
   const syncEndpoint = async (endpoint: string) => {
     setSyncingEndpoint(endpoint);
     setNotificationEndpoint(endpoint);
     setOpenNotification(true);
+
+    if (!token) {
+      setNotificationMessage('You need to be logged in to sync data.');
+      setSyncError(true);
+      setSyncingEndpoint(null);
+      return;
+    }
     try {
-      const response = await synscronize(endpoint, 'sync');
+      const response = await synscronize(endpoint, 'sync', token);
       setNotificationMessage('To see the sync process, click on more info.');
       setSyncError(false);
 
@@ -81,8 +94,14 @@ const Syncronize = () => {
     setSyncInfoEndpoint(endpoint);
     setSyncInfoModal(true);
     setOpenNotification(false);
+
+    if (!token) {
+      setSyncInfo('You need to be logged in to see more info.');
+      setSyncInfoEndpoint(null);
+      return;
+    }
     try {
-      const response = await synscronize(endpoint, 'info');
+      const response = await synscronize(endpoint, 'info', token);
       setSyncInfo(response);
     } catch (error) {
       if (error instanceof Error) {

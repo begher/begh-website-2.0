@@ -19,13 +19,15 @@ interface AuthContextType {
   loading: boolean;
   setLoading: (loading: boolean) => void;
   services: Service[] | null;
+  token: string | null;
 }
 
-async function getServices() {
+async function getServices(token: string) {
   const response = await fetch('https://api.imats.se/control-service/servicestatus', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
   });
 
@@ -41,10 +43,12 @@ const AuthContext = createContext<AuthContextType>({
   loading: true,
   setLoading: () => {},
   services: null,
+  token: null,
 });
 
 export const AuthProvider = ({ children }: { children: ReactElement | ReactElement[] }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [services, setServices] = useState<Service[] | null>(null);
   const router = useRouter();
@@ -54,10 +58,10 @@ export const AuthProvider = ({ children }: { children: ReactElement | ReactEleme
     const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
       setCurrentUser(user);
       if (user) {
-        user.getIdToken().then(() => {
-          getServices()
+        user.getIdToken().then((idToken) => {
+          setToken(idToken);
+          getServices(idToken)
             .then((data) => {
-              console.log('data', data);
               setLoading(false);
               setServices(data);
             })
@@ -85,7 +89,7 @@ export const AuthProvider = ({ children }: { children: ReactElement | ReactEleme
   return (
     <html lang='en' className={poppins.className}>
       <body className='bg-begh-background p-4 sm:p-6 h-screen '>
-        <AuthContext.Provider value={{ currentUser, loading, setLoading, services }}>
+        <AuthContext.Provider value={{ currentUser, loading, setLoading, services, token }}>
           <div className=' bg-begh-white h-full shadow-begh-body mx-auto rounded-2xl overflow-x-hidden overflow-y-auto'>
             {loading ? <Loading /> : children}
           </div>

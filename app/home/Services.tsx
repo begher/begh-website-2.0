@@ -22,10 +22,6 @@ export default function Services() {
     setOfflineServices(offlineServices);
   }, [services]);
 
-  useEffect(() => {
-    console.log('services', services);
-  }, [services]);
-
   const handleClick = (data: Service) => {
     setHealthServiceEndpoint(`${data.url}${data.health}`);
     setUptimeServiceEndpoint(`${data.url}${data.uptime}`);

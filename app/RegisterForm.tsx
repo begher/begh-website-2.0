@@ -21,7 +21,6 @@ const LoginForm = ({ setErrorMessage }: LoginFormProps) => {
       .then((userCredential) => {
         // Sign in
         const user = userCredential.user;
-        console.log('user', user);
         setErrorMessage('');
         router.push('/home');
         setLoading(false);
